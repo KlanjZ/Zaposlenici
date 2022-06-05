@@ -445,9 +445,6 @@ void sortirajPlacaVeca(int z) {
          printf("\n---------------------------------------------------------------------------------------------\n");
         for (int i = 0; i < z; i++) {
 
-            fscanf(fp, "%s %s", (zaposlenici + i) -> korisnickoIme, (zaposlenici + i) -> sifra);
-            fscanf(fp, "%s %s ", (zaposlenici + i) -> ime, (zaposlenici + i) -> prezime);
-            fscanf(fp, "%d %f", & (zaposlenici + i) -> ID, & (zaposlenici + i) -> placa);
             
             printf("%d\t\t%s\t\t%s\t\t\t%.2f\n", (zaposlenici + i) -> ID, (zaposlenici + i) -> ime, (zaposlenici + i) -> prezime, (zaposlenici + i) -> placa);
         }
@@ -495,10 +492,6 @@ void sortirajPlacaManja(int z) {
          printf("ID\t\tIme\t\tPrezime\t\t\tPlaca");
          printf("\n---------------------------------------------------------------------------------------------\n");
         for (int i = 0; i < z; i++) {
-
-            fscanf(fp, "%s %s", (zaposlenici + i) -> korisnickoIme, (zaposlenici + i) -> sifra);
-            fscanf(fp, "%s %s ", (zaposlenici + i) -> ime, (zaposlenici + i) -> prezime);
-            fscanf(fp, "%d %f", & (zaposlenici + i) -> ID, & (zaposlenici + i) -> placa);
             
             printf("%d\t\t%s\t\t%s\t\t\t%.2f\n", (zaposlenici + i) -> ID, (zaposlenici + i) -> ime, (zaposlenici + i) -> prezime, (zaposlenici + i) -> placa);
         }
@@ -547,10 +540,6 @@ void sortirajIme(int z) {
          printf("ID\t\tIme\t\tPrezime\t\t\tPlaca");
          printf("\n---------------------------------------------------------------------------------------------\n");
         for (int i = 0; i < z; i++) {
-
-            fscanf(fp, "%s %s", (zaposlenici + i) -> korisnickoIme, (zaposlenici + i) -> sifra);
-            fscanf(fp, "%s %s ", (zaposlenici + i) -> ime, (zaposlenici + i) -> prezime);
-            fscanf(fp, "%d %f", & (zaposlenici + i) -> ID, & (zaposlenici + i) -> placa);
             
             printf("%d\t\t%s\t\t%s\t\t\t%.2f\n", (zaposlenici + i) -> ID, (zaposlenici + i) -> ime, (zaposlenici + i) -> prezime, (zaposlenici + i) -> placa);
         }
@@ -677,6 +666,5 @@ int provjeraID(int k, int ID){
             return provjera;
         }
 }
-
 
 
