@@ -235,13 +235,10 @@ void login(int k) {
             getchar();
             do {
                 pokusaj++;
-                if (pokusaj < 5) {
-                    printf("imate jos %d pokusaj/a: ", 5 - pokusaj);
-
-                }
+                printf("imate jos %d pokusaj/a: ", 5 - pokusaj);
                 sifra1 = sifra();
                 if (strcmp(sifra1, (zaposlenici + i) -> sifra) == 0) {
-                    printf("Sifra pronadena.\n ");
+                    printf("Sifra tocna.\n");
                     free(sifra1);
                     free(zaposlenici);
                     int uvijet = 1;
