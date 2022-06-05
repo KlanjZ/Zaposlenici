@@ -131,7 +131,7 @@ int brojZap(void) {
 
     FILE * fp = NULL;
     if((fp=fopen("datoteka.txt","r"))==NULL){
-            
+            return 0;
     }else{
     int i = 0;
     char citac[100];
