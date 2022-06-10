@@ -67,9 +67,9 @@ void kreirajZaposlenika(void) {
 
 char * sifra(void) {
     const int max = 15;
-    char * password;
-    password = calloc(max + 1, sizeof(char));
-    if (password == NULL) {
+    char * Sifra;
+    Sifra = calloc(max + 1, sizeof(char));
+    if (Sifra == NULL) {
         return 0;
     }
     char ch;
@@ -82,7 +82,7 @@ char * sifra(void) {
             continue;
         } else {
             if (pozicija < max) {
-                password[pozicija] = ch;
+                Sifra[pozicija] = ch;
                 pozicija++;
                 printf("*");
             } else {
@@ -91,16 +91,16 @@ char * sifra(void) {
             }
         }
     }
-    password[pozicija] = '\0';
+    Sifra[pozicija] = '\0';
     printf("\n");
-    if (strlen(password) == 0) {
+    if (strlen(Sifra) == 0) {
         printf("\nNije unesena sifra.\n ");
-    } else if (strlen(password) < 6) {
+    } else if (strlen(Sifra) < 6) {
         printf("Sifra mora biti barem 6 karaktera, pokusajte ponovo: ");
-        free(password);
-        password = sifra();
+        free(Sifra);
+        Sifra = sifra();
     } else {
-        return password;
+        return Sifra;
     }
 
 }
