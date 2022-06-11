@@ -69,7 +69,7 @@ int izbornik(void) {
 
 int izbornikZaposlenik(int z){
         FILE *fp=NULL;
-    fp=fopen("datoteka.txt", "r");
+    fp=fopen("datoteka.bin", "rb");
     if(fp==NULL){
         perror("greska u otvaranju");
         exit(EXIT_FAILURE);
@@ -77,18 +77,15 @@ int izbornikZaposlenik(int z){
     ZAPOSLENIK *zaposlenik=NULL;
     zaposlenik=(ZAPOSLENIK*)calloc(1, sizeof(ZAPOSLENIK));
     if(zaposlenik==NULL){
-        perror("greska");
+        perror("zauzimanje memorije");
         exit(EXIT_FAILURE);
     }
     for(int i=0; i<z+1; i++){
-        
-        fscanf(fp, "%s %s", zaposlenik->korisnickoIme, zaposlenik->sifra);
-        fscanf(fp, "%s %s ",zaposlenik->ime, zaposlenik->prezime);
-        fscanf(fp, "%d %f",&zaposlenik->ID,&zaposlenik->placa);
-    }
+        fread(zaposlenik, sizeof(ZAPOSLENIK), 1,fp);
+}
     int uvijet=1;
-    
     fclose(fp);
+    
     printf("\n*********************************************************************************************\n");
     printf("*                                                                                           *\n");
     printf("  ----------------------------------Dobro dosli, %s!-----------------------------------\n", zaposlenik->ime );
