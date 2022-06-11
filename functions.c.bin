@@ -8,11 +8,12 @@ void kreirajZaposlenika(void) {
     ZAPOSLENIK * zap = NULL;
     zap = (ZAPOSLENIK * ) calloc(1, sizeof(ZAPOSLENIK));
     if (zap == NULL) {
-        perror("greska");
+        perror("zauzimanje memorije");
+        exit(EXIT_FAILURE);
     }
     fp = fopen("datoteka.bin", "ab");
     if (fp == NULL) {
-        perror("error");
+        perror("datoteka");
         exit(EXIT_FAILURE);
     }
     int provjeraKor;
@@ -52,7 +53,6 @@ void kreirajZaposlenika(void) {
     } while (provjeraID1 != 0);
     printf("Upisite placu: ");
     scanf("%f", & zap -> placa);
-
     fwrite(zap, sizeof(ZAPOSLENIK),1, fp);
     printf("Uspjesna registracija zaposlenika.\n");
     free(sifra1);
@@ -154,16 +154,14 @@ void ispisZap(int z) {
         ZAPOSLENIK * zaposlenici = NULL;
         zaposlenici = (ZAPOSLENIK * ) calloc(z, sizeof(ZAPOSLENIK));
         if (zaposlenici == NULL) {
-            perror("greska");
+            perror("zauzimanje memorije");
             exit(EXIT_FAILURE);
-
         }
+        fread(zaposlenici, sizeof(ZAPOSLENIK), z,fp);
          printf("\n---------------------------------------------------------------------------------------------\n");
          printf("ID\t\tIme\t\tPrezime\t\t\tPlaca");
          printf("\n---------------------------------------------------------------------------------------------\n");
         for (int i = 0; i < z; i++) {
-
-        fread((zaposlenici+i), sizeof(ZAPOSLENIK), z,fp);
             
             printf("%d\t\t%s\t\t%s\t\t\t%.2f\n", (zaposlenici + i) -> ID, (zaposlenici + i) -> ime, (zaposlenici + i) -> prezime, (zaposlenici + i) -> placa);
         }
@@ -187,14 +185,11 @@ void login(int k) {
         ZAPOSLENIK * zaposlenici = NULL;
         zaposlenici = (ZAPOSLENIK * ) calloc(k, sizeof(ZAPOSLENIK));
         if (zaposlenici == NULL) {
-            perror("greska");
+            perror("zauzimanje memorije");
             exit(EXIT_FAILURE);
         }
-        for (int i = 0; i < k; i++) {
-      fread((zaposlenici+i), sizeof(ZAPOSLENIK), k,fp);
-        }
+        fread(zaposlenici, sizeof(ZAPOSLENIK), k,fp);
         fclose(fp);
-
         char korisnik[15];
         printf("korisnicko ime: ");
         scanf("%s", korisnik);
@@ -205,11 +200,11 @@ void login(int k) {
                 provj = 1;
                 break;
             }
-
             i++;
         } while (k > i);
-        char * sifra1;
         int pokusaj = 0;
+        char * sifra1;
+        int oslobodenje=0;
         if (provj == 1) {
             printf("Korisnicko ime nadeno, upisite sifru, ");
             getchar();
@@ -218,6 +213,7 @@ void login(int k) {
                 printf("imate jos %d pokusaj/a: ", 5 - pokusaj);
                 sifra1 = sifra();
                 if (strcmp(sifra1, (zaposlenici + i) -> sifra) == 0) {
+                    oslobodenje=1;
                     printf("Sifra tocna.\n");
                     free(sifra1);
                     free(zaposlenici);
@@ -226,15 +222,17 @@ void login(int k) {
                         uvijet = izbornikZaposlenik(i);
                     }
                     break;
+                }else{
+                    free(sifra1);
                 }
             } while (pokusaj < 4);
 
         } else {
             printf("Korisnicko ime nije nadeno! pokusajte ponovo upisat ");
+            free(zaposlenici);
             login(k);
         }
-        if (pokusaj == 4) {
-            free(sifra1);
+        if ((oslobodenje==0)&&(pokusaj==4)) {
             free(zaposlenici);
             printf("Sifra netocna, vracam na izbornik.\n");
         }
@@ -255,12 +253,11 @@ void promjenaSifre(int s, int z) {
     ZAPOSLENIK * zaposlenici = NULL;
     zaposlenici = (ZAPOSLENIK * ) calloc(z, sizeof(ZAPOSLENIK));
     if (zaposlenici == NULL) {
-        perror("greska");
+        perror("zauzimanje memorije");
         exit(EXIT_FAILURE);
-    }
-    for (int i = 0; i < z; i++) {
-      fread((zaposlenici+i), sizeof(ZAPOSLENIK), z,fp);
-    }
+     }
+      fread(zaposlenici, sizeof(ZAPOSLENIK), z,fp);
+
 
     printf("Upisite novu sifru: ");
     char * novasifra;
@@ -269,9 +266,9 @@ void promjenaSifre(int s, int z) {
     strcpy((zaposlenici + s) -> sifra, novasifra);
     fclose(fp);
     fp = fopen("datoteka.bin", "wb");
-    for (int i = 0; i < z; i++) {
-    fwrite((zaposlenici+i), sizeof(ZAPOSLENIK),1, fp);  
-    }
+
+    fwrite(zaposlenici, sizeof(ZAPOSLENIK),z, fp);  
+    
     free(zaposlenici);
     fclose(fp);
     free(novasifra);
@@ -337,10 +334,8 @@ void obirisiZaposlenika(int z) {
          printf("\n---------------------------------------------------------------------------------------------\n");
          printf("ID\t\tIme\t\tPrezime\t\t\tPlaca");
          printf("\n---------------------------------------------------------------------------------------------\n");
+         fread(zaposlenici, sizeof(ZAPOSLENIK), z,fp);
         for (int i = 0; i < z; i++) {
-
-           fread((zaposlenici+i), sizeof(ZAPOSLENIK), z,fp);
-
             printf("%d\t\t%s\t\t%s\t\t\t%.2f\n", (zaposlenici + i) -> ID, (zaposlenici + i) -> ime, (zaposlenici + i) -> prezime, (zaposlenici + i) -> placa);
         }
         fclose(fp);
@@ -355,7 +350,6 @@ void obirisiZaposlenika(int z) {
             break;
         }
         }
-        
         if(provjera==1){
             break;
         }
@@ -392,10 +386,7 @@ void sortirajPlacaVeca(int z) {
         perror("greska");
         exit(EXIT_FAILURE);
     }
-    for (i = 0; i < z; i++) {
-
-        fread((zaposlenici+i), sizeof(ZAPOSLENIK), z,fp);
-    }
+        fread(zaposlenici, sizeof(ZAPOSLENIK), z,fp);
 
     fclose(fp);
 
@@ -438,10 +429,9 @@ void sortirajPlacaManja(int z) {
         perror("greska");
         exit(EXIT_FAILURE);
     }
-    for (i = 0; i < z; i++) {
 
-        fread((zaposlenici+i), sizeof(ZAPOSLENIK), z,fp);
-    }
+        fread(zaposlenici, sizeof(ZAPOSLENIK), z,fp);
+
 
     fclose(fp);
 
@@ -484,11 +474,8 @@ void sortirajIme(int z) {
         perror("greska");
         exit(EXIT_FAILURE);
     }
-    for (i = 0; i < z; i++) {
-
-        fread((zaposlenici+i), sizeof(ZAPOSLENIK), z,fp);
-    }
-
+    fread(zaposlenici, sizeof(ZAPOSLENIK), z,fp);
+        
     fclose(fp);
 
     int min = -1;
@@ -544,13 +531,11 @@ void trazenjeID(int k){
         scanf("%d", &trazeniID);
         int provjera=0;
         int i;
+        fread(zaposlenici, sizeof(ZAPOSLENIK), k,fp);
         for (i = 0; i < k; i++) {
-
-            fread((zaposlenici+i), sizeof(ZAPOSLENIK), k,fp);
             if(trazeniID==(zaposlenici+i)->ID){
                 provjera=1;
                 break;
-                
             }
         }
         fclose(fp);
@@ -581,9 +566,9 @@ int provjeraKorisnika(int k, char *korisnik){
             exit(EXIT_FAILURE);
         }
         int provjera=0;
+        fread(zaposlenici, sizeof(ZAPOSLENIK), k,fp);
         for (int i = 0; i < k; i++) {
 
-            fread((zaposlenici+i), sizeof(ZAPOSLENIK), k,fp);
             if ((strcmp(korisnik, (zaposlenici + i) -> korisnickoIme)) == 0) {
                 provjera = 1;
                 break;
@@ -612,14 +597,12 @@ int provjeraID(int k, int ID){
             exit(EXIT_FAILURE);
         }
         int provjera=0;
+        fread(zaposlenici, sizeof(ZAPOSLENIK), k,fp);
         for (int i = 0; i < k; i++) {
-            
-        fread((zaposlenici+i), sizeof(ZAPOSLENIK), k,fp);
             if (ID==(zaposlenici+i)->ID) {
                 provjera = 1;
                 break;
             }
-                
             }
             fclose(fp);
             free(zaposlenici);
