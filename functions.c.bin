@@ -86,7 +86,7 @@ char * sifra(void) {
                 pozicija++;
                 printf("*");
             } else {
-                printf("\nPreskocili ste maksimalan broj karaktera sifre koji iznosi:%d, sifra je postavljena.", max);
+                printf("\nPreskocili ste maksimalan broj karaktera sifre koji iznosi:%d.", max);
                 break;
             }
         }
@@ -256,9 +256,7 @@ void promjenaSifre(int s, int z) {
         perror("zauzimanje memorije");
         exit(EXIT_FAILURE);
      }
-      fread(zaposlenici, sizeof(ZAPOSLENIK), z,fp);
-
-
+    fread(zaposlenici, sizeof(ZAPOSLENIK), z,fp);
     printf("Upisite novu sifru: ");
     char * novasifra;
     getchar();
@@ -327,7 +325,7 @@ void obirisiZaposlenika(int z) {
         ZAPOSLENIK * zaposlenici = NULL;
         zaposlenici = (ZAPOSLENIK * ) calloc(z, sizeof(ZAPOSLENIK));
         if (zaposlenici == NULL) {
-            perror("greska");
+            perror("zauzimanje memorije");
             exit(EXIT_FAILURE);
 
         }
@@ -383,7 +381,7 @@ void sortirajPlacaVeca(int z) {
     ZAPOSLENIK * zaposlenici = NULL;
     zaposlenici = (ZAPOSLENIK * ) calloc(z, sizeof(ZAPOSLENIK));
     if (zaposlenici == NULL) {
-        perror("greska");
+        perror("zauzimanje memorije");
         exit(EXIT_FAILURE);
     }
         fread(zaposlenici, sizeof(ZAPOSLENIK), z,fp);
@@ -471,7 +469,7 @@ void sortirajIme(int z) {
     ZAPOSLENIK * zaposlenici = NULL;
     zaposlenici = (ZAPOSLENIK * ) calloc(z, sizeof(ZAPOSLENIK));
     if (zaposlenici == NULL) {
-        perror("greska");
+        perror("zauzimanje memorije");
         exit(EXIT_FAILURE);
     }
     fread(zaposlenici, sizeof(ZAPOSLENIK), z,fp);
@@ -523,7 +521,7 @@ void trazenjeID(int k){
         ZAPOSLENIK * zaposlenici = NULL;
         zaposlenici = (ZAPOSLENIK * ) calloc(k, sizeof(ZAPOSLENIK));
         if (zaposlenici == NULL) {
-            perror("greska");
+            perror("zauzimanje memorije");
             exit(EXIT_FAILURE);
         }
         int trazeniID;
@@ -541,7 +539,7 @@ void trazenjeID(int k){
         fclose(fp);
         if(provjera==1){
 
-             printf("\nZaposlenik naden!\n\nIme:%s\nPrezime:%s\nID:%d\nPlaca:%.2f\n\n",(zaposlenici + i) -> ime, (zaposlenici + i) -> prezime, (zaposlenici + i) -> ID, (zaposlenici + i) -> placa);
+            printf("\nZaposlenik naden!\n\nIme:%s\nPrezime:%s\nID:%d\nPlaca:%.2f\n\n",(zaposlenici+i)->ime, (zaposlenici+i)->prezime, (zaposlenici+i)->ID, (zaposlenici+i)->placa);
         }
         else{
             printf("\nTrazeni ID nije naden!\n");
@@ -562,7 +560,7 @@ int provjeraKorisnika(int k, char *korisnik){
         ZAPOSLENIK * zaposlenici = NULL;
         zaposlenici = (ZAPOSLENIK * ) calloc(k, sizeof(ZAPOSLENIK));
         if (zaposlenici == NULL) {
-            perror("greska");
+            perror("zauzimanje memorije");
             exit(EXIT_FAILURE);
         }
         int provjera=0;
@@ -593,7 +591,7 @@ int provjeraID(int k, int ID){
         ZAPOSLENIK * zaposlenici = NULL;
         zaposlenici = (ZAPOSLENIK * ) calloc(k, sizeof(ZAPOSLENIK));
         if (zaposlenici == NULL) {
-            perror("greska");
+            perror("zauzimanje memorije");
             exit(EXIT_FAILURE);
         }
         int provjera=0;
